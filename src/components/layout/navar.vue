@@ -14,7 +14,7 @@ export default {
     <nav class="item-menu">
         <ul class="item-menu-ul">
             <li>
-                <a href="">Home</a>
+                <router-link to="home"> Home</router-link>
             </li>
             <li>
                 <a href="">Bài Hát</a>
