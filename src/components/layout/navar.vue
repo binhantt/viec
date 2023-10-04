@@ -80,6 +80,7 @@ export default {
 .item-menu a {
     text-decoration: none;
     color: black;
+    transition: 0.5s;
 }
 
 .item-menu {
@@ -97,6 +98,7 @@ export default {
 .item-login_register a {
     text-decoration: none;
     color: black;
+    transition: 0.5s;
 }
 
 .login::after {
@@ -115,5 +117,6 @@ export default {
 
 .item a:hover {
     color: orangered;
+
 }
 </style>

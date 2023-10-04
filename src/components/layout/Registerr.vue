@@ -69,7 +69,7 @@ export default{
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         background-color:transparent;
         color: white;
-
+        transition: 15s;
     }
     .Registerr-Registerr-input-1 input{
         padding: 5px;
