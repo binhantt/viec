@@ -2,44 +2,92 @@
   <div>
     <navar />
     <foder />
-    <input ref="searchInput" type="text" v-model="searchQuery" @input="search" />
-    <button @click="setSongFiltered(song1)">Set Song 1</button>
-    <h2>{{ song.name }}</h2>
-    <p>{{ song.singer }}</p>
-    <audio controls :src="song.path"></audio>
-    <img :src="song.image" width="20" height="20" />
+    <div class="songatou">
+      <div class="song-list">
+        <div v-for="list in songLists" :key="list.id" class="s-1">
+          <h2>{{ list.name }}</h2>
+          <div class="song-container"> 
+            <div v-for="song in list.songs" :key="song.id" class="song" @click="playAudio(song)">
+              <img :src="song.image" width="50" height="50" />
+              <div class="song-1"> 
+                <router-link :to="{ name: 'dachon', params: { songId: song.id }}">
+                  {{ song.name }}
+                  {{ song.singer }}  
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <audio ref="audioPlayer" :src="selectedSong ? selectedSong.audioUrl : ''" @timeupdate="updateCurrentTime"></audio>
   </div>
 </template>
 
 <script>
 import navar from '../components/layout/navar.vue';
 import foder from '../components/layout/foder.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
+
 export default {
   components: {
     navar,
     foder,
   },
+  data() {
+    return {
+      selectedSong: null,
+      currentTime: 0,
+    };
+  },
   computed: {
-    ...mapState('demo', ['songs', 'song']), // Thay 'demo' bằng tên namespace của Vuex store của bạn
-    filteredSongs() {
-      if (!this.searchQuery) {
-        return null;
-      }
-      const query = this.searchQuery.toLowerCase();
-      return this.songs.filter((item) => {
-        return item.name.toLowerCase().includes(query) || item.singer.toLowerCase().includes(query);
-      });
-    },
+    ...mapState('demo', ['songLists']),
   },
   methods: {
-    ...mapActions('demo', ['setSong']), // Thay 'demo' bằng tên namespace của Vuex store của bạn
-    search() {
-      // Không cần gọi phương thức filter ở đây, computed property filteredSongs sẽ tự động cập nhật
+    playAudio(song) {
+      if (this.selectedSong === song) {
+        // Nếu nhấp vào bài hát hiện tại, tiếp tục phát từ vị trí hiện tại
+        this.$refs.audioPlayer.currentTime = this.currentTime;
+        this.$refs.audioPlayer.play();
+      } else {
+        // Nếu nhấp vào một bài hát khác, đặt bài hát mới và vị trí hiện tại về 0, sau đó phát nhạc
+        this.selectedSong = song;
+        this.currentTime = 0;
+        this.$refs.audioPlayer.play();
+      }
     },
-    setSongFiltered(song) {
-      this.setSong(song);
+    updateCurrentTime() {
+      this.currentTime = this.$refs.audioPlayer.currentTime;
     },
   },
 };
 </script>
+
+<style>
+.song-container { display: flex; }
+.song {
+  display: flex;
+  border: 3px solid orangered;
+  padding: 10px;
+  width: 150px;
+  margin: 5px;
+}
+
+.song img {
+  border-radius: 50px;
+}
+
+.song-1 {
+  display: flex;
+  margin: 5px;
+  flex-direction: column;
+  font-size: 15px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.audio-player {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+</style>
