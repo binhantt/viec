@@ -1,30 +1,30 @@
+<template>
+  <div>
+    <navar />
+    <foder />
+    <div v-for="song in danhsach" :key="song.nhac.name">
+      {{ mame }};
+      <img :src="song.nhac.anh" :alt="song.nhac.name" />
+      <h3>{{ song.nhac.name }}</h3>
+      <p>{{ song.nhac.methor }}</p>
+      <audio :src="song.nhac.diachi" controls></audio>
+    </div>
+  </div>
+</template>
 
+<script>
+import foder from "../components/layout/foder.vue";
+import navar from "../components/layout/navar.vue";
 
-<style>
-.song-container { display: flex; }
-.song {
-  display: flex;
-  border: 3px solid orangered;
-  padding: 10px;
-  width: 150px;
-  margin: 5px;
-}
-
-.song img {
-  border-radius: 50px;
-}
-
-.song-1 {
-  display: flex;
-  margin: 5px;
-  flex-direction: column;
-  font-size: 15px;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-.audio-player {
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-}
-</style>
+export default {
+  components: {
+    navar,
+    foder,
+  },
+  computed: {
+    danhsach() {
+      return this.$store.getters["demo/getAllSongs"];
+    },
+  },
+};
+</script>
