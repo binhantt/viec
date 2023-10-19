@@ -4,11 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "json-server --watch radio.json",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
+
   },
   "dependencies": {
+    "json": "^11.0.0",
+    "sever": "^0.0.2",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"
